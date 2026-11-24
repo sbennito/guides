@@ -1,0 +1,43 @@
+{
+  "series": [
+    {
+      "id": "see",
+      "label": "See",
+      "summary": "Visibility: what you have, what is happening on it, and what you are blind to, with free and freemium tools and a lab you can run.",
+      "guides": [
+        { "n": 0, "slug": "overview", "title": "You cannot defend what you cannot see", "question": "Which signals exist, what each one answers, and where the blind spots usually are" },
+        { "n": 1, "slug": "inventory", "title": "Inventory: what is actually there", "question": "What runs, who owns it, what talks to it" },
+        { "n": 2, "slug": "internet-view", "title": "What the internet sees of you", "question": "Which names, addresses, certificates and services an outsider can find" },
+        { "n": 3, "slug": "log-pipeline", "title": "The log pipeline: one place to look", "question": "How every signal gets collected, parsed, stamped with the right time and kept" },
+        { "n": 4, "slug": "siem", "title": "The SIEM: security events in one place", "question": "Which security events arrive, in one schema, kept for how long, and searchable by whom" },
+        { "n": 5, "slug": "servers", "title": "Servers: health and host activity", "question": "Is it up, is it busy, what changed on it" },
+        { "n": 6, "slug": "firewall", "title": "Firewall traffic", "question": "What was allowed and denied, and by which rule" },
+        { "n": 7, "slug": "network", "title": "Network: flows, packets and DNS", "question": "Who talks to whom, how much, and which names they look up" },
+        { "n": 8, "slug": "web-proxy", "title": "The web proxy and the way out", "question": "Which users and machines reach which sites and services" },
+        { "n": 9, "slug": "edge", "title": "Load balancers and the edge", "question": "What customers actually experience: errors, latency, TLS, backend health" },
+        { "n": 10, "slug": "databases", "title": "Databases, and where personal data lives", "question": "Who queried what, who changed permissions, which tables hold personal data" },
+        { "n": 11, "slug": "applications", "title": "Applications and APIs", "question": "Where a request spent its time and where it failed" },
+        { "n": 12, "slug": "identity", "title": "Identity", "question": "Who signed in, from where, with what, and what they were given" },
+        { "n": 13, "slug": "saas-and-email", "title": "SaaS and email", "question": "What happens in the SaaS applications, and who sends mail as you" },
+        { "n": 14, "slug": "endpoints", "title": "Endpoints", "question": "What ran on a laptop, till or server, and what it connected to" },
+        { "n": 15, "slug": "containers-and-cloud", "title": "Containers and cloud", "question": "What runs in containers, what images hold, what changed outside the pipeline" },
+        { "n": 16, "slug": "warehouse-automation", "title": "Warehouse automation", "question": "What the sorter, scanners and printers are doing, and who talks to them" },
+        { "n": 17, "slug": "assurance", "title": "Assurance: proving you can see", "question": "Is every asset sending every signal, did the backups work, would an attack show up" },
+        { "n": 18, "slug": "watching-ai", "title": "Watching AI itself", "question": "Who calls which AI service, with what data and key, what agents did, and what it cost" },
+        { "n": 19, "slug": "deception", "title": "Deception: tripwires only an intruder touches", "question": "Who touched something no legitimate person or system ever should" }
+      ]
+    },
+    {
+      "id": "understand",
+      "label": "Understand",
+      "summary": "Turning signals into meaning: what normal looks like, who depends on whom, detection rules, and which weaknesses matter. Planned.",
+      "guides": []
+    },
+    {
+      "id": "control",
+      "label": "Control",
+      "summary": "Acting on what you understand, always in report-only first and then enforcing. Planned.",
+      "guides": []
+    }
+  ]
+}
