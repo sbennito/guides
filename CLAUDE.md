@@ -6,6 +6,7 @@ between them works, is in the CLAUDE.md of sbennito/lgkm-site. This repo is publ
 - Cloudflare builds and deploys the Worker from the `main` branch on every push. Only `public/` is published, under
   `public/guides/`, because the Worker sees the full path including `/guides`.
 - Guide pages are generated from Markdown in `guides/`: edit the Markdown, run the build, commit the result.
+- Nothing links to a page without content: a series gets its page (and a place in the bar menu in sbennito/lgkm-site) only once it has a written guide, and a planned guide is listed without a link.
 - The lab lives in `lab/`; each guide links to the lab step it builds.
 - Links stay relative, never root-absolute. Every page carries the shared lgkm.org bar (`<lgkm-nav>` and
   `https://lgkm.org/shared/nav.js`); never hand-write it.

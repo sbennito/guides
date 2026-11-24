@@ -214,12 +214,15 @@ function seriesPage(s) {
   const body = `<p class="lg-eyebrow"><a href="../">Guides</a></p>
 <h1>${esc(s.label)}</h1>
 <p class="lg-lede">${esc(s.summary)}</p>
-${s.guides.length ? `<ul class="list">\n${items}\n</ul>` : "<p>The first guides in this series follow the See series.</p>"}`;
+<ul class="list">\n${items}\n</ul>`;
   return page({ title: `${s.label} · lgkm.org guides`, description: s.summary, depth: 2, body, canonical: `/guides/${s.id}/` });
 }
 
 function indexPage(series) {
-  const items = series.map((s) => `<li><span class="lg-eyebrow">${s.guides.filter((g) => g.written).length} of ${s.guides.length || "a few"} written</span><a class="title" href="${s.id}/">${esc(s.label)}</a><p>${esc(s.summary)}</p></li>`).join("\n");
+  // A series gets a page and a link only once it has a written guide, so nothing links to an empty page.
+  const items = series.map((s) => s.guides.some((g) => g.written)
+    ? `<li><span class="lg-eyebrow">${s.guides.filter((g) => g.written).length} of ${s.guides.length} written</span><a class="title" href="${s.id}/">${esc(s.label)}</a><p>${esc(s.summary)}</p></li>`
+    : `<li><span class="lg-eyebrow">Coming later</span><span class="title">${esc(s.label)}</span><p>${esc(s.summary)}</p></li>`).join("\n");
   const body = `<h1>Guides</h1>
 <p class="lg-lede">How-to guides in three series: see, then understand, then control. Each guide uses free or freemium tools and builds one step of a lab you can run on your own computer: a small, made-up retailer called Cairnmoor Outdoor.</p>
 <ul class="list">
@@ -236,7 +239,7 @@ function build() {
   files.set("assets/guides.css", CSS);
   files.set("assets/tokens.css", readFileSync(join(ROOT, "site", "tokens.css"), "utf8"));
   files.set("assets/lg.css", readFileSync(join(ROOT, "site", "lg.css"), "utf8"));
-  for (const s of series) {
+  for (const s of series.filter((x) => x.guides.some((g) => g.written))) {
     files.set(`${s.id}/index.html`, seriesPage(s));
     for (const g of s.guides.filter((x) => x.written)) files.set(`${s.id}/${g.slug}/index.html`, guidePage(s, g));
   }
