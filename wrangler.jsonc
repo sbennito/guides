@@ -1,0 +1,47 @@
+{
+  // Static-assets Worker serving the how-to guides at lgkm.org/guides/.
+  // "name" must match the Worker's name in the Cloudflare dashboard.
+  "name": "guides",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./public"
+  },
+  // lgkm.org itself belongs to the lgkm-site Worker; this route claims /guides in front of it.
+  // The workers.dev address and per-version preview URLs are public by default, so switch them off.
+  "routes": [
+    { "pattern": "lgkm.org/guides*", "zone_name": "lgkm.org" }
+  ],
+  "workers_dev": false,
+  "preview_urls": false,
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "invocation_logs": true,
+      "persist": true
+    }
+  },
+  // Branch and pull request builds run `wrangler preview`, which needs this
+  // block. Assets and compatibility settings come from the top level; this
+  // keeps logging on for previews, as in sbennito/LabelSim.
+  "previews": {
+    "observability": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "issues": {
+        "enabled": false
+      },
+      "logs": {
+        "enabled": true,
+        "head_sampling_rate": 1,
+        "invocation_logs": true,
+        "persist": true
+      },
+      "traces": {
+        "enabled": false,
+        "head_sampling_rate": 1,
+        "persist": true
+      }
+    }
+  }
+}

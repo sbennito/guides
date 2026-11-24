@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>You cannot defend what you cannot see · lgkm.org guides</title>
+<meta name="description" content="Where a visibility programme starts: the questions a board needs answered, the seven kinds of signal that answer them, where the blind spots usually are, and the lab this series builds.">
+<meta name="robots" content="noindex,nofollow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="You cannot defend what you cannot see · lgkm.org guides">
+<meta property="og:description" content="Where a visibility programme starts: the questions a board needs answered, the seven kinds of signal that answer them, where the blind spots usually are, and the lab this series builds.">
+<meta property="og:url" content="https://lgkm.org/guides/see/overview/">
+<meta property="og:image" content="https://lgkm.org/shared/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="lgkm: security leadership, architecture, and things built at home.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../../apple-touch-icon.png">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<link rel="stylesheet" href="../../assets/lg.css">
+<link rel="stylesheet" href="../../assets/guides.css">
+</head>
+<body>
+<lgkm-nav><a href="../../../">lgkm.org</a></lgkm-nav>
+<script src="https://lgkm.org/shared/nav.js" defer></script>
+<main>
+<p class="lg-eyebrow"><a href="../../">Guides</a> · <a href="../">See</a> · Guide 0 · <a href="../../../topics/architecture/">Architecture and strategy</a></p>
+<h1>You cannot defend what you cannot see</h1>
+<p class="lg-lede">Where a visibility programme starts: the questions a board needs answered, the seven kinds of signal that answer them, where the blind spots usually are, and the lab this series builds.</p>
+<div class="lg-callout"><p class="lg-callout-label">In plain words</p><p class="lg-callout-body">Before you can look after a building you need a light in every room, and a list of the rooms that are still dark.</p></div>
+<p class="small">This guide builds lab step 1: <a href="https://github.com/sbennito/guides/tree/main/lab" rel="noopener">the lab on GitHub</a>.</p>
+<h2 id="what-a-board-needs-to-be-assured-of">What a board needs to be assured of</h2>
+<p>When a board asks whether the organisation is secure, the honest answer is usually a different question: would we know? Three things sit underneath it.</p>
+<ul><li><strong>What do we have?</strong> Every system, account, supplier connection and piece of data that matters, with an owner.</li><li><strong>What is happening on it?</strong> Who is signing in, what is talking to what, what changed, what failed.</li><li><strong>Would we notice if something went wrong?</strong> Not in theory, but shown: an attack tried in a test, and seen.</li></ul>
+<p>Assurance is the third question answered with evidence. It is the last guide in this series because it can only check what the earlier guides have made visible, but it is the reason for all of them. I wrote about the order of things in the field note <a href="../../../notes/visibility-before-control/">Visibility before control</a>: see first, understand second, control third. This series is the first of those three.</p>
+<h2 id="the-seven-kinds-of-signal">The seven kinds of signal</h2>
+<p>Almost everything a security or operations team looks at is one of seven kinds of signal. Each answers a different question, and each has free tools that collect it.</p>
+<div class="lg-table-wrap"><table class="lg-table"><thead><tr><th>Signal</th><th>The question it answers</th><th>Free tools this series uses</th></tr></thead><tbody><tr><td>Inventory</td><td>What exists, and who owns it</td><td>Nmap, NetBox, osquery</td></tr><tr><td>Logs</td><td>What happened, by whom, when</td><td>Fluent Bit, Loki, Wazuh</td></tr><tr><td>Metrics</td><td>How busy, how fast, how full</td><td>Prometheus, Grafana</td></tr><tr><td>Flows</td><td>Who talked to whom, and how much</td><td>Zeek, ntopng</td></tr><tr><td>Packets</td><td>Exactly what was said</td><td>Suricata, Wireshark</td></tr><tr><td>Traces</td><td>Where one request spent its time</td><td>OpenTelemetry, Tempo</td></tr><tr><td>Configuration</td><td>How things are set up now, and what drifted</td><td>Trivy, Prowler, Wazuh</td></tr></tbody></table></div>
+<p>No single signal is enough. A log tells you a sign-in failed; a flow tells you the same address then talked to a database; an inventory tells you the database holds customer data and who owns it. Visibility is having all three, joined up, in front of the person who has to decide.</p>
+<h2 id="five-layers-to-check-against">Five layers to check against</h2>
+<p>The Enlightenment's <a href="../../../enlightenment/vnc/">Visibility and control</a> page asks the same questions in five layers. They make a good checklist for each guide.</p>
+<ol><li><strong>Inventory</strong>: what is there.</li><li><strong>Relationships</strong>: what depends on what.</li><li><strong>State</strong>: how it is configured and whether it is healthy.</li><li><strong>Activity</strong>: what is happening on it.</li><li><strong>Context</strong>: what it matters to, and who owns it.</li></ol>
+<h2 id="where-the-blind-spots-usually-are">Where the blind spots usually are</h2>
+<p>In most organisations the gaps are in the same places. Each one has a guide in this series.</p>
+<ul><li>Systems nobody owns, so nobody watches them (guide 1).</li><li>What the internet can see of you that you cannot (guide 2).</li><li>Logs that arrive with the wrong time, or are kept too briefly to answer a question three months later (guide 3).</li><li>Traffic between internal systems, which a perimeter firewall never sees (guide 7).</li><li>SaaS applications, which hold much of the data and send their logs somewhere else (guide 13).</li><li>Operational technology such as warehouse sorters, which cannot run an agent (guide 16).</li><li>Calls to AI services, which carry data out and act on your behalf (guide 18).</li><li>The monitoring itself: an agent that quietly stopped sending looks exactly like a quiet system (guide 17).</li></ul>
+<h2 id="the-organisation-we-will-watch">The organisation we will watch</h2>
+<p>Every guide looks at the same made-up organisation: <strong>Cairnmoor Outdoor</strong>, a retailer of outdoor clothing and kit with a website, 14 shops, a warehouse near Perth, about 90 brands it buys from and a dozen contract factories. It is the example behind the Enlightenment's <a href="../../../enlightenment/vnc/example/">Cairnmoor views</a>. Nothing about it describes a real company. I chose a retailer because everyone has shopped online, so the services need no explaining, and because its busiest weeks are also its riskiest ones. The same thinking applies to a hospital, a council or a manufacturer; only the services change.</p>
+<h2 id="the-lab">The lab</h2>
+<p>The lab is a small, stubbed copy of Cairnmoor that runs in Docker on one computer. Each Cairnmoor service is a light stub that answers requests, calls the services it depends on, writes logs and exposes metrics, so every guide has real signals to collect. Suppliers such as payments, couriers and brands are stubs too. A traffic generator plays shoppers on Cairnmoor's clock, busiest from 7pm to 10pm, and one Cairnmoor day passes every hour so a short demo shows a whole day.</p>
+<p>The lab grows one step per guide. Step 1, built with this guide, is the estate and its traffic; later steps add the tools that watch it.</p>
+<p>The lab has four zones. The estate is what we watch. The edge is the firewall and the sensors that read a copy of the traffic. Observe is where every signal is collected, stored and shown, with Grafana for operations and Wazuh as the SIEM. Test appears only in the assurance and deception guides, to check that an attack is seen.</p>
+<figure class="lg-figure"><svg class="fig" viewBox="0 0 760 416" role="img" aria-label="Every zone of the lab sends its signals to one place to look: the estate and the edge feed Observe, and the Test zone checks that an attack shows up there.">
+<defs><marker id="lab-zones-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="arrow" d="M0 0L10 5L0 10z"/></marker></defs>
+<text class="title" x="24" y="32">Every zone sends its signals to one place to look</text>
+<rect class="box dash" x="24" y="64" width="150" height="112" rx="6"/>
+<text class="name" x="36" y="88">Test</text>
+<text x="36" y="108">Attack scenarios</text>
+<text x="36" y="124">and decoys</text>
+<text class="muted" x="36" y="156">guides 17 and 19</text>
+<rect class="box" x="194" y="64" width="200" height="112" rx="6"/>
+<text class="name" x="206" y="88">Edge</text>
+<text x="206" y="108">Firewall</text>
+<text x="206" y="124">Zeek and Suricata</text>
+<text x="206" y="140">read a copy of traffic</text>
+<rect class="box" x="414" y="64" width="322" height="112" rx="6"/>
+<text class="name" x="426" y="88">Estate: Cairnmoor Outdoor, stubbed</text>
+<text x="426" y="108">Online orders, accounts, search</text>
+<text x="426" y="124">Shop tills, warehouse, supplier portal</text>
+<text x="426" y="140">Stubbed payments, couriers, brands</text>
+<text x="426" y="156">Shoppers on Cairnmoor's clock</text>
+<g class="edge">
+<path d="M174 120H194" marker-end="url(#lab-zones-arrow)"/>
+<path d="M394 120H414" marker-end="url(#lab-zones-arrow)"/>
+<path d="M294 176V240" marker-end="url(#lab-zones-arrow)"/>
+<path d="M575 176V240" marker-end="url(#lab-zones-arrow)"/>
+<path d="M245 316H277" marker-end="url(#lab-zones-arrow)"/>
+<path d="M482 316H514" marker-end="url(#lab-zones-arrow)"/>
+</g>
+<text class="muted" x="306" y="212">flows, alerts, firewall logs</text>
+<text class="muted" x="587" y="212">logs, metrics, traces</text>
+<rect class="hi" x="24" y="240" width="712" height="152" rx="6"/>
+<text class="name" x="40" y="264">Observe</text>
+<rect class="box" x="40" y="280" width="205" height="72" rx="6"/>
+<text class="name" x="52" y="304">Collect</text>
+<text x="52" y="324">Fluent Bit, OpenTelemetry</text>
+<text x="52" y="340">Collector, Prometheus</text>
+<rect class="box" x="277" y="280" width="205" height="72" rx="6"/>
+<text class="name" x="289" y="304">Store</text>
+<text x="289" y="324">Loki (logs), Prometheus</text>
+<text x="289" y="340">(metrics), Tempo (traces)</text>
+<rect class="box" x="514" y="280" width="205" height="72" rx="6"/>
+<text class="name" x="526" y="304">Look</text>
+<text x="526" y="324">Grafana for operations,</text>
+<text x="526" y="340">Wazuh as the SIEM</text>
+<text class="muted" x="40" y="380">The bus (NATS) joins between Collect and Store in the Understand series.</text>
+</svg></figure>
+<p>What you need: a computer with Docker and Compose, 16 GB of memory for the full lab (step 1 alone needs about 2 GB), and an internet connection the first time, to fetch the images. Every image runs on Intel and on Apple Silicon.</p>
+<pre><code>git clone https://github.com/sbennito/guides
+cd guides/lab
+docker compose up -d</code></pre>
+<p>Then open http://localhost:8080 for the shop and watch the logs with <code>docker compose logs -f</code>. The lab's <a href="https://github.com/sbennito/guides/tree/main/lab" rel="noopener">README</a> lists what runs and how to stop it.</p>
+<h2 id="how-each-guide-is-laid-out">How each guide is laid out</h2>
+<p>Each guide follows the same pattern, so you can skip to the part you need.</p>
+<ul><li><strong>The question</strong> it answers, and why it matters.</li><li><strong>The tools</strong>, all free or with a free tier, and where the paid line falls.</li><li><strong>Build it</strong>: the lab step, with what you should see when it works.</li><li><strong>Seeing AI</strong>: how AI services and agents show up at that layer. I assume every AI service is bought as SaaS.</li><li><strong>AI in the way we work</strong>: where AI drafts, explains or suggests, with a person deciding.</li><li><strong>A decoy</strong>: one tripwire to plant in what the guide just made visible.</li><li><strong>Next</strong>: what the Understand and Control series will add on top.</li></ul>
+<h2 id="the-rest-of-the-series">The rest of the series</h2>
+<p>The <a href="../">See series page</a> lists all nineteen guides that follow this one, one a week. The Understand and Control series come after it and reuse the same lab.</p>
+
+<p class="small"><a href="../">All See guides</a></p>
+<p class="foot">Personal work and my own view, not my employer's. Tools named here are free or have a free tier; I have no tie to any of them.</p>
+</main>
+<footer class="lg-footer"><div class="lg-footer-inner"><span>lgkm.org</span><a href="../../../cookies/">Cookies: none set by this site</a></div></footer>
+</body>
+</html>

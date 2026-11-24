@@ -1,0 +1,45 @@
+<svg class="fig" viewBox="0 0 760 416" role="img" aria-label="Every zone of the lab sends its signals to one place to look: the estate and the edge feed Observe, and the Test zone checks that an attack shows up there.">
+<defs><marker id="lab-zones-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="arrow" d="M0 0L10 5L0 10z"/></marker></defs>
+<text class="title" x="24" y="32">Every zone sends its signals to one place to look</text>
+<rect class="box dash" x="24" y="64" width="150" height="112" rx="6"/>
+<text class="name" x="36" y="88">Test</text>
+<text x="36" y="108">Attack scenarios</text>
+<text x="36" y="124">and decoys</text>
+<text class="muted" x="36" y="156">guides 17 and 19</text>
+<rect class="box" x="194" y="64" width="200" height="112" rx="6"/>
+<text class="name" x="206" y="88">Edge</text>
+<text x="206" y="108">Firewall</text>
+<text x="206" y="124">Zeek and Suricata</text>
+<text x="206" y="140">read a copy of traffic</text>
+<rect class="box" x="414" y="64" width="322" height="112" rx="6"/>
+<text class="name" x="426" y="88">Estate: Cairnmoor Outdoor, stubbed</text>
+<text x="426" y="108">Online orders, accounts, search</text>
+<text x="426" y="124">Shop tills, warehouse, supplier portal</text>
+<text x="426" y="140">Stubbed payments, couriers, brands</text>
+<text x="426" y="156">Shoppers on Cairnmoor's clock</text>
+<g class="edge">
+<path d="M174 120H194" marker-end="url(#lab-zones-arrow)"/>
+<path d="M394 120H414" marker-end="url(#lab-zones-arrow)"/>
+<path d="M294 176V240" marker-end="url(#lab-zones-arrow)"/>
+<path d="M575 176V240" marker-end="url(#lab-zones-arrow)"/>
+<path d="M245 316H277" marker-end="url(#lab-zones-arrow)"/>
+<path d="M482 316H514" marker-end="url(#lab-zones-arrow)"/>
+</g>
+<text class="muted" x="306" y="212">flows, alerts, firewall logs</text>
+<text class="muted" x="587" y="212">logs, metrics, traces</text>
+<rect class="hi" x="24" y="240" width="712" height="152" rx="6"/>
+<text class="name" x="40" y="264">Observe</text>
+<rect class="box" x="40" y="280" width="205" height="72" rx="6"/>
+<text class="name" x="52" y="304">Collect</text>
+<text x="52" y="324">Fluent Bit, OpenTelemetry</text>
+<text x="52" y="340">Collector, Prometheus</text>
+<rect class="box" x="277" y="280" width="205" height="72" rx="6"/>
+<text class="name" x="289" y="304">Store</text>
+<text x="289" y="324">Loki (logs), Prometheus</text>
+<text x="289" y="340">(metrics), Tempo (traces)</text>
+<rect class="box" x="514" y="280" width="205" height="72" rx="6"/>
+<text class="name" x="526" y="304">Look</text>
+<text x="526" y="324">Grafana for operations,</text>
+<text x="526" y="340">Wazuh as the SIEM</text>
+<text class="muted" x="40" y="380">The bus (NATS) joins between Collect and Store in the Understand series.</text>
+</svg>
