@@ -23,6 +23,8 @@ docker compose up -d --build
   traffic, errors, latency and backlog for every service on Cairnmoor's clock. If that port is taken, set `GRAFANA_PORT`.
 - Watch everything: `docker compose logs -f`. One service: `docker compose logs -f orders`.
 - Stop it: `docker compose down`.
+- Update it after a new step: `git pull`, then `docker compose up -d --build --force-recreate`. Containers read their
+  config files through mounts, so one started before the pull keeps the old file until it is recreated.
 
 Step 1 uses about 400 MB of memory.
 
