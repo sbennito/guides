@@ -84,7 +84,9 @@ def metrics():
         lines += ["# HELP cairnmoor_backlog Calls waiting to be retried.", "# TYPE cairnmoor_backlog gauge",
                   f'cairnmoor_backlog{{service="{SERVICE}"}} {len(backlog)}',
                   "# HELP cairnmoor_load How busy Cairnmoor is on its clock, 0 to 1.", "# TYPE cairnmoor_load gauge",
-                  f'cairnmoor_load{{service="{SERVICE}"}} {load():.3f}']
+                  f'cairnmoor_load{{service="{SERVICE}"}} {load():.3f}',
+                  "# HELP cairnmoor_hour The hour on Cairnmoor's clock, 0 to 24.", "# TYPE cairnmoor_hour gauge",
+                  f'cairnmoor_hour{{service="{SERVICE}"}} {cairnmoor_hour():.2f}']
     return "\n".join(lines) + "\n"
 
 

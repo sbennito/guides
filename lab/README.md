@@ -3,9 +3,9 @@
 A small, stubbed copy of Cairnmoor Outdoor, the made-up retailer the [guides](https://lgkm.org/guides/) watch. It runs
 in Docker on one computer, on Intel or Apple Silicon. Nothing here describes a real company.
 
-The lab grows one step per guide. This is **step 1** ([guide 0](https://lgkm.org/guides/see/overview/)): the estate
-and its traffic. Later steps add the edge (firewall and network sensors) and the tools that collect, store and show
-every signal.
+The lab grows one step per guide. This is **step 1** ([guide 0](https://lgkm.org/guides/see/overview/)): the estate,
+its traffic and a starter dashboard. Later steps add the edge (firewall and network sensors) and the tools that collect,
+store and show every signal.
 
 ## Run it
 
@@ -19,10 +19,12 @@ docker compose up -d --build
 
 - The shop's front door is http://localhost:18080 (only on your own machine; it listens on IPv4, so a tool that tries only IPv6 needs http://127.0.0.1:18080). If that port is taken, pick another:
   `LAB_PORT=18081 docker compose up -d`.
+- The starter dashboard is http://localhost:13000 (Grafana; no sign-in to view, `admin`/`admin` to edit). It shows
+  traffic, errors, latency and backlog for every service on Cairnmoor's clock. If that port is taken, set `GRAFANA_PORT`.
 - Watch everything: `docker compose logs -f`. One service: `docker compose logs -f orders`.
 - Stop it: `docker compose down`.
 
-Step 1 uses well under 1 GB of memory.
+Step 1 uses about 400 MB of memory.
 
 ## What runs
 
@@ -41,6 +43,8 @@ Step 1 uses well under 1 GB of memory.
 | `payments`, `fraud`, `couriers` | Suppliers (stubs) | Card payments, fraud scoring, three couriers |
 | `brands` | Suppliers (stub) | Brands, factories and wholesale stores sending notices and orders |
 | `shoppers` | Customers | k6 playing shoppers on Cairnmoor's clock |
+| `prometheus` | Observe | Reads every service's metrics, and the front door's, every 5 seconds; keeps two days |
+| `grafana` | Observe | The starter dashboard, on port 13000 |
 
 Corporate IT and reporting arrive with the guides that need them (endpoints and databases).
 
@@ -58,8 +62,8 @@ PEAK=1 docker compose up -d
 
 - **Logs**: one JSON line per request answered and per call made, with a W3C trace id so a request can be followed
   across services.
-- **Metrics**: Prometheus format at `/metrics` on port 8000 inside the lab network (requests, latency, backlog and the
-  clock's load).
+- **Metrics**: Prometheus format at `/metrics` on port 8000 inside the lab network (requests, latency, backlog, the
+  clock's hour and load), read by the `prometheus` container and drawn on the starter dashboard.
 - **Health**: `/healthz`.
 
 ## Faults, for the incident scenarios
@@ -70,10 +74,11 @@ Every stub accepts a fault at `POST /_admin/fault` inside the lab network: extra
 docker compose exec couriers python -c "import urllib.request as u, json; u.urlopen(u.Request('http://localhost:8000/_admin/fault', json.dumps({'latency_ms': 2000}).encode(), method='POST'))"
 ```
 
-That makes the couriers slow, so despatch backs up. Send `{"latency_ms": 0, "error_rate": 0, "down": false}` to clear it.
+That makes the couriers slow, so despatch backs up, and the dashboard's latency panel shows it within a minute. Send `{"latency_ms": 0, "error_rate": 0, "down": false}` to clear it.
 Later guides wrap the scenarios in a single command.
 
 ## Keeping the lab in step with Cairnmoor
 
 `estate.json` follows the organisation in the Enlightenment (`tools/vnc/content/org.mjs` in sbennito/harmonisation).
-Check it with `node tools/check-org.mjs <path to org.mjs>`.
+Check it with `node tools/check-org.mjs <path to org.mjs>`. `python3 tools/check-observe.py` checks that Prometheus reads
+every service in `estate.json`; CI runs it.

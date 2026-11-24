@@ -63,7 +63,7 @@ Every guide looks at the same made-up organisation: **Cairnmoor Outdoor**, a ret
 
 The lab is a small, stubbed copy of Cairnmoor that runs in Docker on one computer. Each Cairnmoor service is a light stub that answers requests, calls the services it depends on, writes logs and exposes metrics, so every guide has real signals to collect. Suppliers such as payments, couriers and brands are stubs too. A traffic generator plays shoppers on Cairnmoor's clock, busiest from 7pm to 10pm, and one Cairnmoor day passes every hour so a short demo shows a whole day.
 
-The lab grows one step per guide. Step 1, built with this guide, is the estate and its traffic; later steps add the tools that watch it.
+The lab grows one step per guide. Step 1, built with this guide, is the estate, its traffic and a starter dashboard that shows how busy each service is, how fast it answers and how often it fails. Later steps add the tools that see everything else.
 
 The lab has four zones. The estate is what we watch. The edge is the firewall and the sensors that read a copy of the traffic. Observe is where every signal is collected, stored and shown, with Grafana for operations and Wazuh as the SIEM. Test appears only in the assurance and deception guides, to check that an attack is seen.
 
@@ -77,7 +77,7 @@ cd guides/lab
 docker compose up -d --build
 ```
 
-Then open http://localhost:18080 for the shop (if something else uses that port, start it with `LAB_PORT=18081 docker compose up -d --build`) and watch the logs with `docker compose logs -f`. The lab's [README](https://github.com/sbennito/guides/tree/main/lab) lists what runs and how to stop it.
+Then open http://localhost:18080 for the shop and http://localhost:13000 for the starter dashboard. If something else uses either port, set `LAB_PORT` or `GRAFANA_PORT`, for example `LAB_PORT=18081 docker compose up -d --build`. Watch the raw logs with `docker compose logs -f`. The lab's [README](https://github.com/sbennito/guides/tree/main/lab) lists what runs and how to stop it.
 
 ## How each guide is laid out
 
