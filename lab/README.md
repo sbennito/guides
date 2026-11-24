@@ -15,7 +15,8 @@ You need Docker with Compose and an internet connection the first time, to fetch
 docker compose up -d --build
 ```
 
-- The shop's front door is http://localhost:8080 (only on your own machine).
+- The shop's front door is http://localhost:18080 (only on your own machine). If that port is taken, pick another:
+  `LAB_PORT=18081 docker compose up -d`.
 - Watch everything: `docker compose logs -f`. One service: `docker compose logs -f orders`.
 - Stop it: `docker compose down`.
 
@@ -25,7 +26,7 @@ Step 1 uses well under 1 GB of memory.
 
 | Container | Cairnmoor service (tier) | What it does |
 | --- | --- | --- |
-| `edge` | Front door | HAProxy, routing shoppers, staff and partners to the services; logs every request |
+| `edge` | Front door | HAProxy on port 18080, routing shoppers, staff and partners to the services; logs every request |
 | `orders` | Online orders (1) | Shop pages, basket and checkout; checkout calls accounts, fraud, payments and the warehouse |
 | `search` | Search and product pages (2) | Search, product pages, stock levels |
 | `accounts` | Customer accounts (2) | Sign-in and sessions (a stub until the identity guide brings Keycloak) |
@@ -45,7 +46,7 @@ Corporate IT and reporting arrive with the guides that need them (endpoints and 
 
 One Cairnmoor day passes every real hour (`CLOCK_SPEED=24`), so a short demo shows the whole daily curve: quiet
 overnight, busiest from 7pm to 10pm. Set `PEAK=1` for peak season (two and a half times the traffic) and `SHOPPERS` for
-the number of simulated shoppers (default 20). Put them in a `.env` file next to `compose.yaml`, or:
+the number of simulated shoppers (default 20). These and `LAB_PORT` can go in a `.env` file next to `compose.yaml`, or:
 
 ```
 PEAK=1 docker compose up -d

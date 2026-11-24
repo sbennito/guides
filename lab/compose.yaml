@@ -1,6 +1,6 @@
 # The lab, step 1 (guide 0): Cairnmoor's estate and its traffic. Later guides add the edge and observe zones.
 # Every stub is the same image (stub/), told which service it is by SERVICE and what that service does by estate.json.
-# Set CLOCK_SPEED (Cairnmoor hours per real hour, default 24) and PEAK=1 in a .env file or on the command line.
+# Set CLOCK_SPEED (Cairnmoor hours per real hour, default 24), PEAK=1 and LAB_PORT (default 18080) in a .env file or on the command line.
 name: cairnmoor
 
 x-stub: &stub
@@ -107,7 +107,7 @@ services:
     image: haproxy:3.0-alpine
     restart: unless-stopped
     networks: [estate]
-    ports: ["127.0.0.1:8080:8080"]
+    ports: ["127.0.0.1:${LAB_PORT:-18080}:8080"]
     volumes: ["./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro"]
     depends_on: [orders, search, accounts, wholesale, service, supply]
 

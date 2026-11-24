@@ -99,7 +99,7 @@
 <pre><code>git clone https://github.com/sbennito/guides
 cd guides/lab
 docker compose up -d --build</code></pre>
-<p>Then open http://localhost:8080 for the shop and watch the logs with <code>docker compose logs -f</code>. The lab's <a href="https://github.com/sbennito/guides/tree/main/lab" rel="noopener">README</a> lists what runs and how to stop it.</p>
+<p>Then open http://localhost:18080 for the shop (if something else uses that port, start it with <code>LAB_PORT=18081 docker compose up -d --build</code>) and watch the logs with <code>docker compose logs -f</code>. The lab's <a href="https://github.com/sbennito/guides/tree/main/lab" rel="noopener">README</a> lists what runs and how to stop it.</p>
 <h2 id="how-each-guide-is-laid-out">How each guide is laid out</h2>
 <p>Each guide follows the same pattern, so you can skip to the part you need.</p>
 <ul><li><strong>The question</strong> it answers, and why it matters.</li><li><strong>The tools</strong>, all free or with a free tier, and where the paid line falls.</li><li><strong>Build it</strong>: the lab step, with what you should see when it works.</li><li><strong>Seeing AI</strong>: how AI services and agents show up at that layer. I assume every AI service is bought as SaaS.</li><li><strong>AI in the way we work</strong>: where AI drafts, explains or suggests, with a person deciding.</li><li><strong>A decoy</strong>: one tripwire to plant in what the guide just made visible.</li><li><strong>Next</strong>: what the Understand and Control series will add on top.</li></ul>

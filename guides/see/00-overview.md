@@ -77,7 +77,7 @@ cd guides/lab
 docker compose up -d --build
 ```
 
-Then open http://localhost:8080 for the shop and watch the logs with `docker compose logs -f`. The lab's [README](https://github.com/sbennito/guides/tree/main/lab) lists what runs and how to stop it.
+Then open http://localhost:18080 for the shop (if something else uses that port, start it with `LAB_PORT=18081 docker compose up -d --build`) and watch the logs with `docker compose logs -f`. The lab's [README](https://github.com/sbennito/guides/tree/main/lab) lists what runs and how to stop it.
 
 ## How each guide is laid out
 
