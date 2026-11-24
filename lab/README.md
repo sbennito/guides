@@ -12,10 +12,12 @@ every signal.
 You need Docker with Compose and an internet connection the first time, to fetch the images.
 
 ```
+git clone https://github.com/sbennito/guides
+cd guides/lab
 docker compose up -d --build
 ```
 
-- The shop's front door is http://localhost:18080 (only on your own machine). If that port is taken, pick another:
+- The shop's front door is http://localhost:18080 (only on your own machine; it listens on IPv4, so a tool that tries only IPv6 needs http://127.0.0.1:18080). If that port is taken, pick another:
   `LAB_PORT=18081 docker compose up -d`.
 - Watch everything: `docker compose logs -f`. One service: `docker compose logs -f orders`.
 - Stop it: `docker compose down`.
