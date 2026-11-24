@@ -1,0 +1,28 @@
+# Prometheus for the starter dashboard: reads every Cairnmoor stub's /metrics and the front door's every 5 seconds.
+# The list follows estate.json; tools/check-observe.py fails when they differ.
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+scrape_configs:
+  - job_name: cairnmoor
+    static_configs:
+      - targets:
+          - orders:8000
+          - search:8000
+          - accounts:8000
+          - stores:8000
+          - shop-perth:8000
+          - shop-inverness:8000
+          - shop-york:8000
+          - warehouse:8000
+          - wholesale:8000
+          - supply:8000
+          - service:8000
+          - payments:8000
+          - fraud:8000
+          - couriers:8000
+          - brands:8000
+  - job_name: edge
+    static_configs:
+      - targets: [edge:8404]

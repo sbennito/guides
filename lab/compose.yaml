@@ -1,6 +1,8 @@
-# The lab, step 1 (guide 0): Cairnmoor's estate and its traffic. Later guides add the edge and observe zones.
+# The lab, step 1 (guide 0): Cairnmoor's estate and its traffic, plus a starter dashboard (Prometheus and Grafana).
+# Later guides add the edge sensors and the rest of the observe zone.
 # Every stub is the same image (stub/), told which service it is by SERVICE and what that service does by estate.json.
-# Set CLOCK_SPEED (Cairnmoor hours per real hour, default 24), PEAK=1 and LAB_PORT (default 18080) in a .env file or on the command line.
+# Set CLOCK_SPEED (Cairnmoor hours per real hour, default 24), PEAK=1, LAB_PORT (default 18080) and GRAFANA_PORT
+# (default 13000) in a .env file or on the command line.
 name: cairnmoor
 
 x-stub: &stub
@@ -123,5 +125,39 @@ services:
     volumes: ["./traffic:/traffic:ro", "./estate.json:/estate.json:ro"]
     depends_on: [edge]
 
+  # The observe zone, starting small: Prometheus reads every service's metrics, Grafana shows them.
+  prometheus:
+    image: prom/prometheus:v3.0.1
+    restart: unless-stopped
+    networks: [estate]
+    command: ["--config.file=/etc/prometheus/prometheus.yml", "--storage.tsdb.retention.time=2d"]
+    volumes: ["./observe/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro", "prometheus:/prometheus"]
+    mem_limit: 256m
+
+  grafana:
+    image: grafana/grafana-oss:11.3.0
+    restart: unless-stopped
+    networks: [estate]
+    ports: ["127.0.0.1:${GRAFANA_PORT:-13000}:3000"]
+    environment:
+      # Anyone on this computer can view the dashboards without signing in; sign in as admin/admin to edit.
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/cairnmoor.json
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      GF_ANALYTICS_CHECK_FOR_PLUGIN_UPDATES: "false"
+      GF_NEWS_NEWS_FEED_ENABLED: "false"
+    volumes:
+      - ./observe/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./observe/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana:/var/lib/grafana
+    mem_limit: 256m
+    depends_on: [prometheus]
+
 networks:
   estate: {}
+
+volumes:
+  prometheus: {}
+  grafana: {}
