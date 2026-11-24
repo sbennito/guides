@@ -69,12 +69,12 @@ The lab has four zones. The estate is what we watch. The edge is the firewall an
 
 {figure: lab-zones}
 
-What you need: a computer with Docker and Compose, 16 GB of memory for the full lab (step 1 alone needs about 2 GB), and an internet connection the first time, to fetch the images. Every image runs on Intel and on Apple Silicon.
+What you need: a computer with Docker and Compose, 16 GB of memory for the full lab (step 1 alone needs well under 1 GB), and an internet connection the first time, to fetch the images. Every image runs on Intel and on Apple Silicon.
 
 ```
 git clone https://github.com/sbennito/guides
 cd guides/lab
-docker compose up -d
+docker compose up -d --build
 ```
 
 Then open http://localhost:8080 for the shop and watch the logs with `docker compose logs -f`. The lab's [README](https://github.com/sbennito/guides/tree/main/lab) lists what runs and how to stop it.

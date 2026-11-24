@@ -1,0 +1,132 @@
+{
+  "about": "The lab's stubbed Cairnmoor Outdoor. Services and owners follow tools/vnc/content/org.mjs in sbennito/harmonisation; check with node tools/check-org.mjs <path to org.mjs>. Each service runs stub/stub.py; routes say what it answers and whom it calls, ticks what it does on its own.",
+  "clock": {
+    "curve": [0.08, 0.05, 0.04, 0.04, 0.04, 0.06, 0.12, 0.25, 0.35, 0.45, 0.5, 0.55, 0.65, 0.6, 0.5, 0.5, 0.55, 0.65, 0.8, 1.0, 1.0, 0.95, 0.6, 0.25],
+    "peak_factor": 2.5
+  },
+  "services": {
+    "orders": {
+      "org": "orders", "tier": 1, "owner": "Digital", "team": "Checkout squad",
+      "routes": [
+        { "method": "GET", "path": "/", "latency_ms": 30, "html": "<!doctype html><html lang=\"en-GB\"><meta charset=\"utf-8\"><title>Cairnmoor Outdoor (lab)</title><body style=\"font-family:system-ui;max-width:40rem;margin:3rem auto;padding:0 1rem\"><h1>Cairnmoor Outdoor</h1><p>This is the lab's stubbed web shop. Cairnmoor is made up; nothing here is real or for sale.</p><p>Shoppers are simulated by the traffic generator. Watch them with <code>docker compose logs -f</code>.</p></body></html>" },
+        { "method": "GET", "path": "/product/*", "latency_ms": 40, "calls": [{ "to": "search/product", "method": "GET" }] },
+        { "method": "POST", "path": "/basket", "latency_ms": 25 },
+        { "method": "POST", "path": "/checkout", "latency_ms": 60, "error_rate": 0.005, "calls": [
+          { "to": "accounts/session", "method": "GET" },
+          { "to": "fraud/score" },
+          { "to": "payments/authorise" },
+          { "to": "warehouse/orders" }
+        ] },
+        { "method": "GET", "path": "/track/*", "latency_ms": 30, "calls": [{ "to": "warehouse/status", "method": "GET" }] }
+      ]
+    },
+    "search": {
+      "org": "search", "tier": 2, "owner": "Digital", "team": "Discovery squad",
+      "routes": [
+        { "method": "GET", "path": "/search", "latency_ms": 45 },
+        { "method": "GET", "path": "/product", "latency_ms": 20 },
+        { "method": "POST", "path": "/stock", "latency_ms": 15 }
+      ]
+    },
+    "accounts": {
+      "org": "accounts", "tier": 2, "owner": "Digital", "team": "Identity squad",
+      "routes": [
+        { "method": "POST", "path": "/signin", "latency_ms": 80, "error_rate": 0.03 },
+        { "method": "GET", "path": "/session", "latency_ms": 10 }
+      ]
+    },
+    "stores": {
+      "org": "stores", "tier": 1, "owner": "Retail operations", "team": "Store systems team",
+      "routes": [
+        { "method": "POST", "path": "/sales", "latency_ms": 20, "calls": [{ "to": "search/stock", "optional": true }] },
+        { "method": "POST", "path": "/heartbeat", "latency_ms": 5 },
+        { "method": "GET", "path": "/stock", "latency_ms": 15, "calls": [{ "to": "search/product", "method": "GET" }] }
+      ]
+    },
+    "shop-perth": {
+      "org": "stores", "tier": 1, "owner": "Retail operations", "team": "Store systems team", "shop": "Perth",
+      "routes": [],
+      "ticks": [
+        { "what": "till sale", "to": "stores/sales", "per_min": 20, "queue": true },
+        { "what": "stock lookup", "to": "stores/stock", "method": "GET", "per_min": 6 },
+        { "what": "heartbeat", "to": "stores/heartbeat", "per_min": 2, "steady": true }
+      ]
+    },
+    "shop-inverness": {
+      "org": "stores", "tier": 1, "owner": "Retail operations", "team": "Store systems team", "shop": "Inverness",
+      "routes": [],
+      "ticks": [
+        { "what": "till sale", "to": "stores/sales", "per_min": 12, "queue": true },
+        { "what": "stock lookup", "to": "stores/stock", "method": "GET", "per_min": 4 },
+        { "what": "heartbeat", "to": "stores/heartbeat", "per_min": 2, "steady": true }
+      ]
+    },
+    "shop-york": {
+      "org": "stores", "tier": 1, "owner": "Retail operations", "team": "Store systems team", "shop": "York",
+      "routes": [],
+      "ticks": [
+        { "what": "till sale", "to": "stores/sales", "per_min": 16, "queue": true },
+        { "what": "stock lookup", "to": "stores/stock", "method": "GET", "per_min": 5 },
+        { "what": "heartbeat", "to": "stores/heartbeat", "per_min": 2, "steady": true }
+      ]
+    },
+    "warehouse": {
+      "org": "warehouse", "tier": 1, "owner": "Logistics", "team": "Warehouse systems team",
+      "routes": [
+        { "method": "POST", "path": "/orders", "latency_ms": 35 },
+        { "method": "POST", "path": "/returns", "latency_ms": 35 },
+        { "method": "POST", "path": "/receive", "latency_ms": 40, "calls": [{ "to": "search/stock" }] },
+        { "method": "GET", "path": "/status", "latency_ms": 15 }
+      ],
+      "ticks": [
+        { "what": "parcel handed to a courier", "to": "couriers/label", "per_min": 30 },
+        { "what": "pallet received from a supplier", "to": "warehouse/receive", "per_min": 3, "steady": true }
+      ]
+    },
+    "wholesale": {
+      "org": "wholesale", "tier": 2, "owner": "Wholesale", "team": "Wholesale squad",
+      "routes": [
+        { "method": "POST", "path": "/bulk-order", "latency_ms": 70, "calls": [{ "to": "warehouse/orders" }] },
+        { "method": "GET", "path": "/prices", "latency_ms": 25 }
+      ]
+    },
+    "supply": {
+      "org": "supply", "tier": 2, "owner": "Buying and merchandising", "team": "Supply squad",
+      "routes": [
+        { "method": "POST", "path": "/notice", "latency_ms": 50, "calls": [{ "to": "search/stock" }] },
+        { "method": "POST", "path": "/confirm", "latency_ms": 40 }
+      ]
+    },
+    "service": {
+      "org": "service", "tier": 2, "owner": "Customer service", "team": "Service squad",
+      "routes": [
+        { "method": "POST", "path": "/return", "latency_ms": 60, "calls": [{ "to": "warehouse/returns" }, { "to": "payments/refund" }] },
+        { "method": "POST", "path": "/chat", "latency_ms": 90 }
+      ]
+    },
+    "payments": {
+      "external": "Payments provider (stub)", "tier": 1,
+      "routes": [
+        { "method": "POST", "path": "/authorise", "latency_ms": 120, "error_rate": 0.01 },
+        { "method": "POST", "path": "/refund", "latency_ms": 100 }
+      ]
+    },
+    "fraud": {
+      "external": "Fraud check (stub)", "tier": 1,
+      "routes": [{ "method": "POST", "path": "/score", "latency_ms": 60 }]
+    },
+    "couriers": {
+      "external": "Three couriers (stub)", "tier": 1,
+      "routes": [{ "method": "POST", "path": "/label", "latency_ms": 90, "error_rate": 0.005 }]
+    },
+    "brands": {
+      "external": "Brands, contract factories and wholesale stores (stub)", "tier": 2,
+      "routes": [],
+      "ticks": [
+        { "what": "shipping notice", "to": "supply/notice", "per_min": 4, "steady": true },
+        { "what": "order confirmation", "to": "supply/confirm", "per_min": 2, "steady": true },
+        { "what": "wholesale store order", "to": "wholesale/bulk-order", "per_min": 1 }
+      ]
+    }
+  }
+}

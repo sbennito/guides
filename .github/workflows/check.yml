@@ -12,3 +12,5 @@ jobs:
         with:
           node-version: 22
       - run: node tools/build.mjs --check
+      - run: docker compose -f lab/compose.yaml config -q
+      - run: python3 -m py_compile lab/stub/stub.py

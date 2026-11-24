@@ -95,10 +95,10 @@
 <text x="526" y="340">Wazuh as the SIEM</text>
 <text class="muted" x="40" y="380">The bus (NATS) joins between Collect and Store in the Understand series.</text>
 </svg></figure>
-<p>What you need: a computer with Docker and Compose, 16 GB of memory for the full lab (step 1 alone needs about 2 GB), and an internet connection the first time, to fetch the images. Every image runs on Intel and on Apple Silicon.</p>
+<p>What you need: a computer with Docker and Compose, 16 GB of memory for the full lab (step 1 alone needs well under 1 GB), and an internet connection the first time, to fetch the images. Every image runs on Intel and on Apple Silicon.</p>
 <pre><code>git clone https://github.com/sbennito/guides
 cd guides/lab
-docker compose up -d</code></pre>
+docker compose up -d --build</code></pre>
 <p>Then open http://localhost:8080 for the shop and watch the logs with <code>docker compose logs -f</code>. The lab's <a href="https://github.com/sbennito/guides/tree/main/lab" rel="noopener">README</a> lists what runs and how to stop it.</p>
 <h2 id="how-each-guide-is-laid-out">How each guide is laid out</h2>
 <p>Each guide follows the same pattern, so you can skip to the part you need.</p>
